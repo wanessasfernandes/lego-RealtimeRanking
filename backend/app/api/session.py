@@ -7,7 +7,7 @@ from app.schemas.session import CreateSessionResponse
 router = APIRouter(prefix="/api/sessions", tags=["sessions"])
 
 @router.post("", response_model=CreateSessionResponse)
-def create_session(): 
+def create_session(request: Request): 
     session = session_manager.create_session()
     join_url = f"{request.base_url}jogar/{session.id}"
     return CreateSessionResponse(session_id=session.id, join_url=join_url)
