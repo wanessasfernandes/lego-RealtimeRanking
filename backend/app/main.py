@@ -1,14 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.core.config import Settings
+from app.core.config import settings
 from app.api.session import router as session_router 
 from app.websocket.main import router as webscoket_router 
 
-app = FastAPI(title=Settings.app_name)
+app = FastAPI(title=settings.app_name)
 
 app.add_middleware(
     CORSMiddleware, 
-    allow_origins=Settings.cors_origins, 
+    allow_origins=settings.cors_origins, 
     allow_methods=["*"],
     allow_headers=["*"]
 )

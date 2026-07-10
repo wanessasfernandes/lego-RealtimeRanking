@@ -7,4 +7,4 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "https://lego-realtime-ranking.vercel.app"]
 
-Settings = Settings()
+settings = Settings()

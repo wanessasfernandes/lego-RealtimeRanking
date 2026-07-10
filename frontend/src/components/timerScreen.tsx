@@ -1,3 +1,6 @@
+import "./timerScreen.css"
+import { CopyrightFooter } from "./footer";
+
 type Props = { elapsedMs: number; onFinish: () => void };
 
 function formatTime(ms: number): string {
@@ -11,9 +14,14 @@ function formatTime(ms: number): string {
 export function TimerScreen({ elapsedMs, onFinish }: Props) {
     return (
         <div className="screen screen-navy">
+            <div className="bricks">
+                <div className="brick"></div><div className="brick"></div> 
+                <div className="brick"></div><div className="brick"></div> 
+            </div>
             <p>Monte o Lego o mais rápido possível!</p>
             <div className="timer-display">{formatTime(elapsedMs)}</div>
             <button onClick={onFinish}>FINALIZAR ✔</button>
+            <CopyrightFooter variant="light" /> 
         </div>
     );
 }
