@@ -97,7 +97,7 @@ body{
 }
 
 .screen-credit{
-    position: absolute;
+    position: fixed;
     bottom: 14px;
     left: 0;
     right: 0;
@@ -112,3 +112,4 @@ body{
 
 .screen-credit.dark { color: rgba(22, 48, 95, 0.5); }
 .screen-credit.light { color: rgba(255, 255, 255, 0.55); }
+.screen-credit.onYellow{ color: rgba(90, 58, 13, 0.75);}

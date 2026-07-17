@@ -1,4 +1,4 @@
-type Props = { variant?: "dark" | "light" };
+type Props = { variant?: "dark" | "light" | "onYellow" };
 
 export function CopyrightFooter({ variant = "dark" }: Props) {
     return (

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { CopyrightFooter } from "./footer";
+import "./scanScreen.css"
 
-type Props = { onJoin: (name: string) => void; onStart: () => void };
+type Props = { onJoin: (name: string) => void; onStart: (name: string) => void };
 
 export function ScanScreen({ onJoin, onStart }: Props) {
   const [name, setName] = useState("");
@@ -16,7 +17,7 @@ export function ScanScreen({ onJoin, onStart }: Props) {
         disabled={name.trim().length === 0}
         onClick={() => {
           onJoin(name.trim());
-          onStart();
+          onStart(name.trim());
         }}
       >
         Iniciar cronômetro ▶

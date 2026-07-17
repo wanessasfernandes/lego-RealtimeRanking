@@ -4,6 +4,7 @@ import { WS_URL } from "../config";
 
 export function useTelaoSocket(sessionId: string) {
   const ws = useRef<WebSocket | null>(null);
+  const tickInterval = useRef<number | null>(null);
   const [status, setStatus] = useState<"waiting" | "playing" | "result">("waiting");
   const [playerName, setPlayerName] = useState("");
   const [elapsedMs, setElapsedMs] = useState(0);
@@ -12,22 +13,29 @@ export function useTelaoSocket(sessionId: string) {
   useEffect(() => {
     if (!sessionId) return;
 
-    const socket = new WebSocket(`${WS_URL}/ws/${sessionId}`);   
+    const socket = new WebSocket(`${WS_URL}/ws/${sessionId}`);
     ws.current = socket;
 
     socket.onmessage = (event) => {
       const data: ServerMessage = JSON.parse(event.data);
 
       switch (data.type) {
-        case "started":
+        case "started": {
           setPlayerName(data.name);
           setElapsedMs(0);
           setStatus("playing");
+
+          if (tickInterval.current) clearInterval(tickInterval.current);
+          tickInterval.current = window.setInterval(() => {
+            setElapsedMs(Date.now() - data.start_timestamp);
+          }, 100);
           break;
-        case "tick":
-          setElapsedMs(data.elapsed_ms);
-          break;
+        }
         case "finished":
+          if (tickInterval.current) {
+            clearInterval(tickInterval.current);
+            tickInterval.current = null;
+          }
           setElapsedMs(data.elapsed_ms);
           setRanking(data.ranking);
           setStatus("result");
@@ -36,7 +44,8 @@ export function useTelaoSocket(sessionId: string) {
     };
 
     return () => {
-      if (socket.readyState === WebSocket.OPEN) socket.close();
+      socket.close();
+      if (tickInterval.current) clearInterval(tickInterval.current);
     };
   }, [sessionId]);
 

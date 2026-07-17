@@ -58,7 +58,7 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
                     "type": "started", "start_timestamp": ts, "name": data.get("name")
                 })
             
-            elif msg_type == "finished": 
+            elif msg_type == "finish": 
                 elapsed = session_manager.finish(session_id, data["player_id"])
                 session = session_manager.get(session_id)
                 ranking = [
@@ -66,7 +66,7 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
                     for i, p in enumerate(session.ranking())
                 ]
                 await manager.broadcast(session_id, {
-                    "type": "finished", "elapsed": elapsed, "ranking": ranking
+                    "type": "finished", "elapsed_ms": elapsed, "ranking": ranking
                 })
     
     except WebSocketDisconnect:

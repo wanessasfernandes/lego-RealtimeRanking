@@ -11,10 +11,10 @@ export function RankingScreen({ ranking, playerName }: Props ) {
         <div className="screen screen-cream">
             <h2>🏆 Ranking do Desafio</h2>
             {myPosition && <p> Você ficou em {myPosition}º lugar!</p>}
-            <ul className="rank=list">
+            <ul className="rank-list">
                 {ranking.map((r) => (
                     <li key={r.position} className={r.name === playerName ? "me" : ""}>
-                        <span>{r.position}º</span> <span>{r.name}</span> 
+                        <span>{r.position}º</span>
                         <span className="rank-name">{r.name}</span>
                         <span>{(r.elapsed_ms / 1000).toFixed(1)}s</span>
                     </li>

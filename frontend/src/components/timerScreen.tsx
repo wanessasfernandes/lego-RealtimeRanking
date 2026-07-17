@@ -3,11 +3,11 @@ import { CopyrightFooter } from "./footer";
 
 type Props = { elapsedMs: number; onFinish: () => void };
 
-function formatTime(ms: number): string {
-    const total = ms / 1000; 
-    const m = Math.floor(total / 60).toString().padStart(2, "0");
-    const s = Math.floor(total % 60).toString().padStart(2, "0");
-    const d = Math.floor((total * 10) % 10);
+export function formatTime(ms: number): string {
+    const totalSeconds = Math.floor(ms / 1000); 
+    const m = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+    const s = (totalSeconds % 60).toString().padStart(2, "0");
+    const d = Math.floor((ms / 100) % 10);
     return `${m}:${s}.${d}`;
 }
 

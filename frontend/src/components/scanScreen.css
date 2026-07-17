@@ -1,0 +1,68 @@
+.screen-cream{
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 40px 24px;
+}
+
+.screen-cream h2{
+    font-family: 'Baloo 2', sans-serif;
+    color: var(--navy);
+    font-size: 24px;
+    margin: 0 0 8px;
+}
+
+.screen-cream > p{
+    font-family: 'Nunito', sans-serif;
+    color: #8a8a60;
+    font-size: 13px;
+    margin: 0 0 20px;
+}
+
+.screen-cream input{
+    width: 100%;
+    max-width: 280px;
+    border: 2px solid var(--navy);
+    border-radius: 20px;
+    padding: 11px 18px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    color: var(--navy);
+    margin-bottom: 16px;
+    outline: none;
+    transition: border-color .15s;
+}
+
+.screen-cream input:focus{
+    border-color: var(--green);
+}
+
+.screen-cream button{
+    width: 100%;
+    max-width: 280px;
+    border: none;
+    border-radius: 20px;
+    padding: 13px;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .3px;
+    color: var(--white);
+    background: var(--green);
+    box-shadow: 0 5px 0 #2e7d4f;
+    cursor: pointer;
+    transition: transform .1s;
+}
+
+.screen-cream button:active:not(:disabled){
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #2e7d4f;
+}
+
+.screen-cream button:disabled{
+  background: #c9c9bf;
+  box-shadow: 0 5px 0 #a8a89e;
+  cursor: not-allowed;
+}

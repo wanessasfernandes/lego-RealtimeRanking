@@ -4,6 +4,7 @@ import { WS_URL } from "../config";
 
 export function useGameSocket(sessionId: string, playerId: string) {
   const ws = useRef<WebSocket | null>(null);
+  const tickInterval = useRef<number | null>(null);
   const [screen, setScreen] = useState<Screen>("join");
   const [elapsedMs, setElapsedMs] = useState(0);
   const [ranking, setRanking] = useState<RankingEntry[]>([]);
@@ -17,15 +18,24 @@ export function useGameSocket(sessionId: string, playerId: string) {
 
     socket.onmessage = (event) => {
       const data: ServerMessage = JSON.parse(event.data);
+      console.log("mensagem recebida:", data)
 
       switch (data.type) {
-        case "started":
+        case "started": {
+          setElapsedMs(0);
           setScreen("timer");
+
+          if (tickInterval.current) clearInterval(tickInterval.current);
+          tickInterval.current = window.setInterval(() => {
+            setElapsedMs(Date.now() - data.start_timestamp);
+          }, 100);
           break;
-        case "tick":
-          setElapsedMs(data.elapsed_ms);
-          break;
+        }
         case "finished":
+          if (tickInterval.current) {
+            clearInterval(tickInterval.current);
+            tickInterval.current = null;
+          }
           setElapsedMs(data.elapsed_ms);
           setRanking(data.ranking);
           setScreen("result");
@@ -34,7 +44,8 @@ export function useGameSocket(sessionId: string, playerId: string) {
     };
 
     return () => {
-      if (socket.readyState === WebSocket.OPEN) socket.close();
+      socket.close();
+      if (tickInterval.current) clearInterval(tickInterval.current);
     };
   }, [sessionId]);
 
@@ -43,11 +54,12 @@ export function useGameSocket(sessionId: string, playerId: string) {
     ws.current?.send(JSON.stringify({ type: "join", player_id: playerId, name }));
   }
 
-  function start() {
-    ws.current?.send(JSON.stringify({ type: "start", player_id: playerId, name: playerName }));
+  function start(name: string) {
+    ws.current?.send(JSON.stringify({ type: "start", player_id: playerId, name }));
   }
 
   function finish() {
+    console.log("enviando finish, socket state:", ws.current?.readyState);
     ws.current?.send(JSON.stringify({ type: "finish", player_id: playerId }));
   }
 
