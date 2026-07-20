@@ -1,7 +1,11 @@
 import "./timerScreen.css"
 import { CopyrightFooter } from "./footer";
 
-type Props = { elapsedMs: number; onFinish: () => void };
+type Props = { 
+    elapsedMs: number; 
+    onFinish?: () => void; 
+    playerName?: string;
+    };
 
 export function formatTime(ms: number): string {
     const totalSeconds = Math.floor(ms / 1000); 
@@ -11,16 +15,31 @@ export function formatTime(ms: number): string {
     return `${m}:${s}.${d}`;
 }
 
-export function TimerScreen({ elapsedMs, onFinish }: Props) {
+export function TimerScreen({ elapsedMs, onFinish, playerName }: Props) {
+    const isCountingDown = elapsedMs < 0;
+    const countdownNumber = Math.max(1, Math.ceil(-elapsedMs / 1000));
+
     return (
         <div className="screen screen-navy">
             <div className="bricks">
                 <div className="brick"></div><div className="brick"></div> 
                 <div className="brick"></div><div className="brick"></div> 
             </div>
-            <p>Monte o Lego o mais rápido possível!</p>
-            <div className="timer-display">{formatTime(elapsedMs)}</div>
-            <button onClick={onFinish}>FINALIZAR ✔</button>
+
+            {isCountingDown ? (
+                <>
+                    <p>Prepare-se!</p>
+                    <div className="countdown-display">{countdownNumber}</div>
+                </>
+            ) : (
+                <>
+                    <p>{playerName ? `${playerName} está montando!` : "Monte o Lego o mais rápido possível!"}</p>
+                    <div className="timer-display">{formatTime(elapsedMs)}</div>
+                </>
+            )}
+            {onFinish && (
+                <button onClick={onFinish}>FINALIZAR ✔</button>   
+            )}
             <CopyrightFooter variant="light" /> 
         </div>
     );

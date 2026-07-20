@@ -19,6 +19,15 @@
   margin-bottom:26px;
 }
 
+.countdown-display{
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 72px;
+  color: var(--yellow);
+  letter-spacing: .02em;
+  margin-bottom: 26px;
+}
+
 .bricks{ display: flex; gap: 6px; margin-bottom: 10px; }
 .brick{ width: 18px; height: 18px; border-radius: 4px; position: relative;}
 .brick::after{

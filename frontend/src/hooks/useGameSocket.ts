@@ -22,7 +22,7 @@ export function useGameSocket(sessionId: string, playerId: string) {
 
       switch (data.type) {
         case "started": {
-          setElapsedMs(0);
+          setElapsedMs(Date.now() - data.start_timestamp);
           setScreen("timer");
 
           if (tickInterval.current) clearInterval(tickInterval.current);

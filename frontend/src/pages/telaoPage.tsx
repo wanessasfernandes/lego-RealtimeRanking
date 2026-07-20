@@ -4,7 +4,7 @@ import { RankingScreen } from "../components/rankingScreen";
 import { API_URL } from "../config";  
 import { CopyrightFooter } from "../components/footer";
 import "./telaoPage.css"       
-import { formatTime } from "../components/timerScreen";
+import { TimerScreen } from "../components/timerScreen";
 
 export function TelaoPage() {
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -39,11 +39,7 @@ export function TelaoPage() {
   if (status === "playing"){
     return (
       <div className="app">
-        <div className="screen screen-navy">
-          <p>{playerName} ESTÁ JOGANDO</p>
-          <div className="timer-display">{formatTime(elapsedMs)}</div>
-          <CopyrightFooter variant="dark" />
-        </div>
+        <TimerScreen elapsedMs={elapsedMs} playerName={playerName} />
       </div>
     );
   }

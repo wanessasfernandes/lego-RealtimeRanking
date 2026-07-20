@@ -1,6 +1,7 @@
 import time 
 from app.models.session import GameSession, Player
 
+COUNTDOWN_MS = 3000
 class SessionManager: 
     def __init__(self): 
         self._sessions: dict[str, GameSession] = {}
@@ -22,7 +23,7 @@ class SessionManager:
     def start(self, session_id: str, player_id: str) -> float: 
         session = self._sessions[session_id]
         session.active_player_id = player_id
-        session.start_timestamp = time.time() * 1000
+        session.start_timestamp = (time.time() * 1000) + COUNTDOWN_MS
         return session.start_timestamp
     
     def finish(self, session_id: str, player_id: str) -> float: 

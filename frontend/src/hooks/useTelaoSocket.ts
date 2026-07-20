@@ -22,7 +22,7 @@ export function useTelaoSocket(sessionId: string) {
       switch (data.type) {
         case "started": {
           setPlayerName(data.name);
-          setElapsedMs(0);
+          setElapsedMs(Date.now() - data.start_timestamp);
           setStatus("playing");
 
           if (tickInterval.current) clearInterval(tickInterval.current);
